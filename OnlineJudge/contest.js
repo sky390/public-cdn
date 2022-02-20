@@ -48,9 +48,9 @@ appendDiv();
 function appendDiv() {
     parseHead(jsonArray[0]);
     var div = document.getElementById("recent");
-    console.log(jsonArray[0][headArray[1]]);
-    console.log(jsonArray[0][headArray[2]]);
-    var contestName = "<p>比赛名称: <a href=\"https://codeforces.com/contest/" + JSON.stringify(jsonArray[0][headArray[0]]) + "\">" + jsonArray[0][headArray[1]] + "</a></p>";
-    var contestTime = "<p>比赛时间: " + formatSeconds(jsonArray[0][headArray[2]]) + "</p>";
+    //console.log(jsonArray[0][headArray[1]]);
+    //console.log(jsonArray[0][headArray[2]]);
+    var contestName = "<p>比赛名称：<a href=\"https://codeforces.com/contest/" + JSON.stringify(jsonArray[0][headArray[0]]) + "\">" + jsonArray[0][headArray[1]] + "</a></p>";
+    var contestTime = "<p>比赛时间：" + formatSeconds(jsonArray[0][headArray[2]]) + "</p>";
     div.innerHTML = contestName + contestTime;
 }
