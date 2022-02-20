@@ -24,13 +24,13 @@ mid += ']';
 //console.log(mid);
 
 function formatSeconds(value) {
-    let result = parseInt(value)
-    let h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
-    let m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
-    let s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
-
-    let res = ''; res += `${h}:`; res += `${m}`;
-    return res;
+    var date = new Date(value * 1000);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth()+1):date.getMonth()+1) + '-';
+    var D = (date.getDate() < 10 ? '0' + date.getDate():date.getDate()) + ' ';
+    var h = (date.getHours() < 10 ? '0' + date.getHours():date.getHours()) + ':';
+    var m = (date.getMinutes() < 10 ? '0' + date.getMinutes():date.getMinutes());
+    return Y + M + D + h + m;
 }
 
 var jsonArray = eval('(' + mid + ')');
@@ -39,54 +39,18 @@ var headArray = [];
 
 function parseHead(oneRow) {
     for (var i in oneRow) {
-        if (i == "frozen" || i == "phase" || i == "relativeTimeSeconds") continue;
+        if (i == "frozen" || i == "phase" || i == "relativeTimeSeconds" || i == "type" || i == "durationSeconds") continue;
         headArray[headArray.length] = i;
     }
 }
 
-appendTable();
-function appendTable() {
+appendDiv();
+function appendDiv() {
     parseHead(jsonArray[0]);
     var div = document.getElementById("recent");
-    var table = document.createElement("table");
-    var thead = document.createElement("tr");
-    for (var count = 0; count < headArray.length; count++) {
-        var td = document.createElement("th");
-        if (count == 0) {
-            td.innerHTML = "ID";
-        } else if (count == 1) {
-            td.innerHTML = "Contest Name";
-        } else if (count == 2) {
-            td.innerHTML = "Type";
-        } else if (count == 3) {
-            td.innerHTML = "Length";
-        }
-        else {
-            td.innerHTML = "Start";
-        }
-        thead.appendChild(td);
-        thead.appendChild(td);
-    }
-    table.appendChild(thead);
-    var tr = document.createElement("tr");
-    for (var headCount = 0; headCount < headArray.length; headCount++) {
-        var cell = document.createElement("td");
-        console.log(jsonArray[0][headArray[headCount]]);
-
-        if (headCount == 1) {
-            cell.innerHTML = "<a href=\"https://codeforces.com/contest/" + JSON.stringify(jsonArray[0][headArray[0]]) + "\"a>" + jsonArray[0][headArray[headCount]];
-        } else if (headCount == 3) {
-            cell.innerHTML = formatSeconds(jsonArray[0][headArray[headCount]]);
-        } else if (headCount == 4) {
-            var time = JSON.parse(JSON.stringify(jsonArray[0][headArray[headCount]]));;
-            var unixTimestamp = new Date(time * 1000);
-            var commonTime = unixTimestamp.toLocaleString();
-            cell.innerHTML = commonTime;
-        } else {
-            cell.innerHTML = jsonArray[0][headArray[headCount]];
-        }
-        tr.appendChild(cell);
-    }
-    table.appendChild(tr);
-    div.appendChild(table);
+    console.log(jsonArray[0][headArray[1]]);
+    console.log(jsonArray[0][headArray[2]]);
+    var contestName = "<p>比赛名称: <a href=\"https://codeforces.com/contest/" + JSON.stringify(jsonArray[0][headArray[0]]) + "\">" + jsonArray[0][headArray[1]] + "</a></p>";
+    var contestTime = "<p>比赛时间: " + formatSeconds(jsonArray[0][headArray[2]]) + "</p>";
+    div.innerHTML = contestName + contestTime;
 }
