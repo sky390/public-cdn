@@ -2,7 +2,7 @@ var mid = "[";
 $.ajax({
     url: "https://codeforces.com/api/contest.list?gym=false",
     dataType: 'json',
-    async: false,
+    async: true,
     success: function (end) {
         for (var i = end.result.length - 1, j = 0; i >= 0; i--, j++) {
             if (end.result[i].phase == "FINISHED" || end.result[i].durationSeconds > 5 * 3600) { continue; }
